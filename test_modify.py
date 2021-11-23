@@ -1,23 +1,20 @@
 import torch
 from  torchvision import transforms
-from torchvision.datasets.utils import download_url
 import cv2
 import numpy as np
-
-model_url = 'https://github.com/bryandlee/animegan2-pytorch/raw/main/model.py'
-model_fname = model_url.split('/')[-1]
-download_url(model_url, root = '.', filename = model_fname)
-from model import Generator
+from autogluon.core.utils import download, mkdir
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
-checkpoint = './pytorch_generator_Paprika.pt'
+download('https://github.com/bryandlee/animegan2-pytorch/raw/main/model.py')
+from model import Generator
+
+mkdir('weight')
+checkpoint = download('https://github.com/bryandlee/animegan2-pytorch/raw/main/weights/paprika.pt', path='weight')
 
 net = Generator()
 net.load_state_dict(torch.load(checkpoint))
 net.eval().to(device)
-
-print(f"model loaded: {checkpoint}")
 
 cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
