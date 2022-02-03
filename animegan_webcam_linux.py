@@ -6,14 +6,7 @@ from autogluon.core.utils import download, mkdir
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
-download('https://github.com/bryandlee/animegan2-pytorch/raw/main/model.py')
-from model import Generator
-
-mkdir('weight')
-checkpoint = download('https://github.com/bryandlee/animegan2-pytorch/raw/main/weights/paprika.pt', path='weight')
-
-net = Generator()
-net.load_state_dict(torch.load(checkpoint))
+net = torch.hub.load("bryandlee/animegan2-pytorch:main", "generator", pretrained="paprika")
 net.eval().to(device)
 
 cap = cv2.VideoCapture(0)
