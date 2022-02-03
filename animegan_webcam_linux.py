@@ -2,7 +2,6 @@ import torch
 from  torchvision import transforms
 import cv2
 import numpy as np
-from autogluon.core.utils import download, mkdir
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
